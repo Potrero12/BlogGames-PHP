@@ -1,7 +1,13 @@
-
 <!-- Cabecera - menu  -->
-<?php
+<?php 
     require_once './includes/cabecera.php'
+?>
+
+<?php 
+    $categoria = conseguirCategoria($db, $_GET['id']);
+    if(!isset($categoria['id'])){
+        header('location:index.php');
+    }
 ?>
 
 <!-- contenido lateral  -->
@@ -9,12 +15,12 @@
 
 <!-- Contenido -->
 <div id="principal">
-    <h1>Ultimas Entradas</h1>
+    <h1>Entradas de <?=$categoria['nombre']?></h1>
 
     <!-- usar el while para recorrer los arrays de las consultas -->
-    <?php $entradas = conseguirEntradas($db, true);
+    <?php $entradas = conseguirEntradas($db, null, (int)$_GET['id']);
         if(!empty($entradas)):
-            while($entrada = mysqli_fetch_assoc($entradas)): 
+            while($entrada = mysqli_fetch_assoc($entradas)):
         ?>
             <article class="entrada">
                 <a href="entrada.php?id=<?=$entrada['id']?>">
@@ -24,12 +30,15 @@
                 </a>               
             </article>
         <?php
-            endwhile;
-        endif; 
-    ?>
-    <div id="ver-todas">
-        <a href="entradas.php">Ver todas las entradas</A>
-    </div>
+            endwhile; 
+            else:
+            ?>
+            <div class="alerta">No hay entrada para esta categoria</div>    
+        <?php 
+            endif;
+        ?>
+        
+        
 </div>
 
 <!-- footer -->

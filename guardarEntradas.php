@@ -39,17 +39,35 @@
 
 
         if(count($errores) === 0) {
-            $sql = "INSERT INTO entradas VALUES (null, $usuarioId, $categoria, '$titulo', '$descripcion', CURDATE())";
-            $guardar = mysqli_query($db, $sql);
+            if(isset($_GET['editar'])){
 
-
-            if($guardar){
-                $_SESSION['completado'] = 'Entrada creada correctamente';
-                header('location:index.php');
-            } 
+                $entradaId = $_GET['editar'];
+                // editamos
+                $sql = "UPDATE entradas SET titulo = '$titulo', categoria_id = $categoria, descripcion = '$descripcion' WHERE id = $entradaId AND usuario_id = $usuarioId";
+                $actualizar = mysqli_query($db, $sql);
+    
+                if($actualizar){
+                    $_SESSION['completado'] = 'Entrada actualizada correctamente';
+                    header('location:index.php');
+                } 
+            } else {
+                // guardamos
+                $sql = "INSERT INTO entradas VALUES (null, $usuarioId, $categoria, '$titulo', '$descripcion', CURDATE())";
+                $guardar = mysqli_query($db, $sql);
+    
+    
+                if($guardar){
+                    $_SESSION['completado'] = 'Entrada creada correctamente';
+                    header('location:index.php');
+                } 
+            }
         } else {
             $_SESSION['errores_entrada'] = $errores;
-            header('location:crearEntradas.php');
+            if(isset($_GET['editar'])){
+                header("location:editarEntrada.php?id=".$_GET['editar']);
+            } else {
+                header('location:crearEntradas.php');
+            }
         }
 
     }

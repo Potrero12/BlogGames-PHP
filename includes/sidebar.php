@@ -1,11 +1,22 @@
 <?php 
-    
-
     require_once './includes/helper.php'
 ?>
 
 <!-- sidebar -->
 <aside id="sidebar">
+
+    <div id="buscador" class="bloque">
+            <h3>Buscador de Juegos</h3>
+
+            <form action="buscar.php" method="POST">
+
+                <label for="buscar">Buscador</label>
+                <input type="text" name="buscar"/>
+
+                <input type="submit" value="Buscar"/>
+
+            </form>
+    </div>
     
     <?php if(isset($_SESSION['usuario'])): ?>
         <div id = "usuario-logueado" class="bloque">
@@ -13,7 +24,7 @@
             <!-- botones -->
             <a href="crearEntradas.php" class="boton boton-verde">Crear Entradas</a>
             <a href="crearCategoria.php" class="boton">Crear Categorias</a>
-            <a href="cerrarSesion.php" class="boton boton-naranja">Mis Datos</a>
+            <a href="misDatos.php" class="boton boton-naranja">Mis Datos</a>
             <a href="cerrarSesion.php" class="boton boton-rojo">Cerrar Sesion</a>
         </div>
     <?php endif; ?>

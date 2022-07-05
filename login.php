@@ -30,12 +30,14 @@
         $sql = "select * from usuarios where email = '$email'";
         $login = mysqli_query($db, $sql);
 
-        // validar la contraseña cifrada
         if($login && mysqli_num_rows($login) == 1){
             $usuario = mysqli_fetch_assoc($login);
-
+            
+            // validar la contraseña cifrada
             $verify = password_verify($password, $usuario['password']);
+
             if($verify){
+                // creamos una sesion usuario para guardar todos los datos del usuario
                 $_SESSION['usuario'] = $usuario;
 
             } else {
